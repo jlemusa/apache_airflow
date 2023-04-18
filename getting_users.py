@@ -28,5 +28,5 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=dateti
         command="rm -f user.json user.json,tmp",
     )
 
-    get_user_info > parse_json_file > extract_user_info > remove_tmp_files
+    get_user_info >> parse_json_file >> extract_user_info >> remove_tmp_files
 
