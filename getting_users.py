@@ -19,12 +19,6 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="* * * * *", start_date=da
         command="jq '.' /tmp/user.json.tmp > /tmp/user.json"
     )
 
-    check_if_file_exists = FileSensor(
-        task_id="check_if_file_exists",
-        filepath="/tmp/user.json",
-        fs_conn_id="SSH_to_SV02",
-    )
-
     extract_user_info = SSHOperator(
         task_id="extract_user_info",
         ssh_conn_id="SSH_to_SV02",
@@ -37,5 +31,11 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="* * * * *", start_date=da
         command="rm -f /tmp/user.json /tmp/user.json.tmp",
     )
 
-    get_user_info >> parse_json_file >> check_if_file_exists >> extract_user_info >> remove_tmp_files
+    check_file = FileSensor(
+        task_id="check_file",
+        filepath="/tmp/user.json",
+        fs_conn_id="SSH_to_SV02",
+    )
+
+    get_user_info >> parse_json_file >> check_file >> extract_user_info >> remove_tmp_files
 
