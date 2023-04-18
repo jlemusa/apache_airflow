@@ -19,7 +19,7 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=dateti
     extract_user_info = SSHOperator(
         task_id="extract_user_info",
         ssh_conn_id="SSH_to_SV02",
-        command=f"grep -e gender -e first -e last /tmp/user01.json | tr -s ' ' | tr -d '^ ' > /ProcessedFiles/user{datetime.now().strftime('%Y%m%d%H%M')}.txt"
+        command=f"grep -e gender -e first -e last /tmp/user01.json | tr -s ' ' | tr -d '^ ' > /ProcessedFiles/user{datetime.now().strftime('%Y%m%d%H%M%S')}.txt"
     )
 
     remove_tmp_files = SSHOperator(
