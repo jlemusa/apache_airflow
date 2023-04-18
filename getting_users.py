@@ -3,7 +3,7 @@ from airflow.providers.ssh.operators.ssh import SSHOperator
 from airflow.sensors.filesystem import FileSensor
 from datetime import datetime
 
-with DAG(dag_id="Retrieving_Users", schedule_interval="* * * * *", start_date=datetime(2023, 1, 1), catchup=False):
+with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=datetime(2023, 1, 1), catchup=False):
 
     filename = f"/ProcessedFiles/user{datetime.now().strftime('%Y%m%d%H%M%S')}.txt"
 
