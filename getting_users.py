@@ -25,7 +25,7 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=dateti
     remove_tmp_files = SSHOperator(
         task_id="remove_tmp_files",
         ssh_conn_id="SSH_to_SV02",
-        command="rm -f user.json user.json,tmp",
+        command="rm -f /tmp/user.json /tmp/user.json,tmp",
     )
 
     get_user_info >> parse_json_file >> extract_user_info >> remove_tmp_files
