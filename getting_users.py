@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.providers.ssh.operators.ssh import SSHOperator
 from datetime import datetime
 
-with DAG(dag_id="Retrieving_Users", schedule_interval="/1 * * * *", start_date=datetime(2023, 1, 1), catchup=False):
+with DAG(dag_id="Retrieving_Users", schedule_interval="* * * * *", start_date=datetime(2023, 1, 1), catchup=False):
 
     get_user_info = SSHOperator(
         task_id="get_json",
