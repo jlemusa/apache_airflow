@@ -37,7 +37,7 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=dateti
         task_id="check_file",
         filepath="/tmp/user.json",
         hostname="10.110.11.2",
-        username="admin",
+        username="root",
         password="Password00"
     )
 
