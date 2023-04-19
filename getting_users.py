@@ -2,10 +2,12 @@ from airflow import DAG
 from airflow.providers.ssh.operators.ssh import SSHOperator
 from airflow.sensors.filesystem import FileSensor
 from datetime import datetime
+from mySensors import RemoteFileSensor
 
 with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=datetime(2023, 1, 1), catchup=False):
 
     filename = f"/ProcessedFiles/user{datetime.now().strftime('%Y%m%d%H%M%S')}.txt"
+
 
     get_user_info = SSHOperator(
         task_id="get_json",
@@ -31,10 +33,12 @@ with DAG(dag_id="Retrieving_Users", schedule_interval="@once", start_date=dateti
         command="rm -f /tmp/user.json /tmp/user.json.tmp",
     )
 
-    check_file = FileSensor(
+    check_file = RemoteFileSensor(
         task_id="check_file",
         filepath="/tmp/user.json",
-        fs_conn_id="SSH_to_SV02",
+        hostname="10.110.11.2",
+        username="admin",
+        password="Password00"
     )
 
     get_user_info >> parse_json_file >> check_file >> extract_user_info >> remove_tmp_files
